@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ProvaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/prova', function () {
+    return view('welcome_');
+});
+
+
+Route::controller(ProvaController::class)->group(function() {
+    Route::get('/provas', 'index');
+    Route::get('/provas/create', 'create');
+    Route::post('/provas', 'store');
+    Route::get('/provas/{id}', 'show');
+    Route::get('/provas/edit/{id}', 'edit');
+    Route::put('/provas/{id}', 'update');
+    Route::delete('/provas/{id}', 'delete');
+});
 
 
 Route::controller(UserController::class)->group(function() {
