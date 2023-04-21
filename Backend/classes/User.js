@@ -18,12 +18,6 @@ const User = db.define('user', {
     },
     dni: {
         type: Sequelize.INTEGER
-    },
-    instrument_idinstrument: {
-        type: Sequelize.INTEGER,
-        references: {
-
-        }
     }
 }, {tableName: 'user'})
 

@@ -28,6 +28,28 @@ const genericUserBody = {
 }
 
 /** GET ALL USERS **/
+/**
+ * @swagger
+ * /users/band/:band_idband:
+ *      get:
+ *          summary: Get a list of all the users that belong to a band
+ *          description: Sames as summary
+ *          parameters:
+ *              - in: path
+ *                name: band_idband
+ *                required: true
+ *                type: integer
+ *                description: The ID from the band which you want to retrive the users from
+ *          produces:
+ *              - application/json
+ *          responses:
+ *              200:
+ *                  description: OK
+ *                  schema:
+ *                      type: array
+ *                      items: 
+ *                          $ref: '#/components/schemas/User'
+ */
 router.get('/band/:band_idband', (req, res) => {
     User.findAll({
         include: [
