@@ -1,0 +1,72 @@
+schemas:
+  User:
+    type: object
+    properties:
+      iduser:
+        type: integer
+        description: The unique identifier for the user
+      name:
+        type: string
+        description: The name of the user
+      email:
+        type: string
+        format: email
+        description: The email address of the user
+    required:
+      - iduser
+      - name
+      - email
+  Band:
+    type: object
+    properties:
+      idband:
+        type: integer
+        description: The unique identifier for the band
+      name:
+        type: string
+        description: The name of the band
+      location:
+        type: string
+        description: The name of place the band headquarters are located
+    required:
+      - idband
+      - name
+  Event:
+    type: object
+    properties:
+      idevent:
+        type: integer
+        description: The unique identifier for the event
+      name:
+        type: string
+        description: The name of the event
+      description:
+        type: string
+        description: A more descriptive text saying what the event is about
+      location:
+        type: string
+        description: The name of place where the event is taking place
+      datetime:
+        type: datetime
+        description: The exact date and hour where the event is taking place
+      band_idband:
+        type: integer
+        description: The identifier of the band that does the event
+    required:
+      - idevent
+      - name
+      - location
+      - datetime
+      - band_idband
+  Instrument:
+    type: object
+    properties:
+      idinstrument:
+        type: integer
+        description: The unique identifier for the instrument
+      name:
+        type: string
+        description: The name of the instrument
+      sound_file_or_url:
+        type: string
+        description: The file or url where the sound of the instrument will be saved (still needs more search to determine how it will be saved)

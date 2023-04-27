@@ -4,6 +4,33 @@ const Band = require('../classes/Band');
 const User = require('../classes/User');
 const Instrument = require('../classes/Instrument');
 
+/** 
+ * @swagger
+ * /users/band/:band_idband:
+ *      get:
+ *          summary: Get a list of all the users that belong to a band
+ *          parameters:
+ *              - in: path
+ *                name: band_idband
+ *                required: true
+ *                type: integer
+ *                description: The ID from the band which you want to retrive the users from
+ *          produces:
+ *              - application/json
+ * 
+ * /users/email/:email:
+ *      get:
+ *          summary: Get a single user by its email
+ *          parameters:
+ *              - in: path
+ *                name: email
+ *                required: true
+ *                type: string
+ *                description: The email from the user you want to get
+ *          produces:
+ *              - application/json
+ */
+
 const genericUserBody = {
     include: [
         {
@@ -27,7 +54,22 @@ const genericUserBody = {
     }
 }
 
-/** GET ALL USERS **/
+/** 
+ * GET ALL USERS
+ * 
+ * @swagger
+ * /users/band/:band_idband:
+ *      get:
+ *          summary: Get a list of all the users that belong to a band
+ *          parameters:
+ *              - in: path
+ *                name: band_idband
+ *                required: true
+ *                type: integer
+ *                description: The ID from the band which you want to retrive the users from
+ *          produces:
+ *              - application/json
+ */
 router.get('/band/:band_idband', (req, res) => {
     User.findAll({
         include: [
@@ -55,7 +97,7 @@ router.get('/band/:band_idband', (req, res) => {
     .catch(error => res.send(error).status(500))
 })
 
-/** GET ALL USERS **/
+/** GET A USER BY EMAIL **/
 router.get('/email/:email', (req, res) => {
     User.findAll({
         ...genericUserBody,
