@@ -38,4 +38,20 @@ class GoogleController extends Controller
     
         return redirect("/dashboard");
     }
+
+    public static function logout(Request $request)
+    {
+        //dd("has sortit");
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if(isset($_COOKIE["google_id"]))
+        {
+            $_COOKIE["google_id"] = null;
+        }
+
+        return redirect("/");
+    }
 }

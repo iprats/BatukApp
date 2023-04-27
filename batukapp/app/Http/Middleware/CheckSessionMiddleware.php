@@ -30,7 +30,6 @@ class CheckSessionMiddleware
         }
         else
         {
-            dd($google_id);
             return redirect("/");
         }
 
