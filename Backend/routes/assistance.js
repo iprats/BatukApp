@@ -5,7 +5,7 @@ const Assistance = require('../classes/Assistance')
 // TO GET ANSWER ENUM VALUES USE <Assistance.rawAttributes.answer.values>
 
 /**
- * GET ASSISTANCE FROM A USER IN AN EVENT
+ * PUT ASSISTANCE FROM A USER IN AN EVENT
  * 
  * @swagger
  * /events/:idband/date/:month:
@@ -22,31 +22,56 @@ const Assistance = require('../classes/Assistance')
  *                required: true
  *                type: integer
  *                description: The month from the events you want to search
- *              - in: body
- *                name: answer
- *                required: true
- *                type: string
- *                description: The answer about the users assistance to the event
- *              - in: body
- *                name: instrument_idinstrument
- *                required: false
- *                type: integer
- *                description: The id of the instrument the user is playing at the event
+ *          requestBody:
+ *              description: Info about user assistance
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              answer:
+ *                                  type: string
+ *                                  example: Si + Transport
+ *                              idinstrument:
+ *                                  type: integer
+ *                                  example: 7
  *          produces:
  *              - application/json
  */
-router.put('/:event_idevent', (req, res) => {
-    Assistance.update({
-        answer: req.body.answer, 
-        instrument_idinstrument: req.body.instrument_idinstrument
-    }, {
-        where: {
-            user_iduser: req.body.user_iduser,
-            event_idevent: req.params.event_idevent
-        }
-    })
-    .then(result => res.json(result).status(200))
-    .catch(error => res.error(error))
+router.put('/:idevent', (req, res) => {
+    if (Array.isArray(req.body)) {
+        let promises = []
+
+        req.body.map(user => 
+            promises.push(Assistance.update({
+                answer: user.answer, 
+                instrument_idinstrument: user.idinstrument
+            }, {
+                where: {
+                    user_iduser: user.iduser,
+                    event_idevent: req.params.idevent
+                }
+            }))
+        )
+
+        Promise.all(promises)
+        .then(result => res.json(result).status(200))
+        .catch(error => res.error(error))
+    }
+    else {
+        Assistance.update({
+            answer: req.body.answer, 
+            instrument_idinstrument: req.body.idinstrument
+        }, {
+            where: {
+                user_iduser: req.body.iduser,
+                event_idevent: req.params.idevent
+            }
+        })
+        .then(result => res.json(result).status(200))
+        .catch(error => res.error(error))
+    }
 })
 
 router.get('/responses', (_req, res) => {

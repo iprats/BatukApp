@@ -3,6 +3,7 @@ const db = require('../connection')
 const Band = require('./Band')
 const Instrument = require('./Instrument')
 const BandHasUser = require('./BandHasUser')
+const UserHasInstrument = require('./UserHasInstrument')
 
 const User = db.define('user', {
     iduser: {
@@ -18,15 +19,20 @@ const User = db.define('user', {
     },
     dni: {
         type: Sequelize.INTEGER
+    },
+    google_id: {
+        type: Sequelize.STRING
     }
 }, {tableName: 'user'})
 
 /** Relation User-Instrument **/
-User.belongsTo(Instrument, {
-    foreignKey: "instrument_idinstrument"
+User.belongsToMany(Instrument, {
+    through: UserHasInstrument,
+    foreignKey: "user_iduser"
 })
 
-Instrument.hasMany(User, {
+Instrument.belongsToMany(User, {
+    through: UserHasInstrument,
     foreignKey: "instrument_idinstrument"
 })
 

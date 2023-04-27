@@ -1,7 +1,0 @@
-GET     /users/:email ✅
-GET     /songs/:band_idband ✅
-GET     /songs/id/:idsong ✅
-GET     /events/:current_date
-PUT     /events/:idevent
-POST    /events/
-PUT     /assistance/:idevent

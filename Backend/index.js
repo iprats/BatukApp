@@ -9,6 +9,7 @@ swagger(app)
 app.set('port', 3000);
 app.set('json spaces', 2)
 app.set('view engine', 'jade')
+app.use(bodyParser.json());
 
 /* GET home page. */
 app.get('/', (req, res) => {
