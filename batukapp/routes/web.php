@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\ProvaController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\ProfileController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,78 +20,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/prova', function () {
-    return view('welcome_');
+
+
+//Socialite Group
+Route::controller(GoogleController::class)->group(function() {
+    Route::get('/google-auth/redirect', 'googleRedirect');
+    Route::get('/google-auth/callback', 'googleCallback');
+});
+//Socialite Group
+
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware("checkSession")->name('dashboard');
+
+Route::middleware('checkSession')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-Route::controller(ProvaController::class)->group(function() {
-    Route::get('/provas', 'index');
-    Route::get('/provas/create', 'create');
-    Route::post('/provas', 'store');
-    Route::get('/provas/{id}', 'show');
-    Route::get('/provas/edit/{id}', 'edit');
-    Route::put('/provas/{id}', 'update');
-    Route::delete('/provas/{id}', 'delete');
-});
-
-
-Route::controller(UserController::class)->group(function() {
-    Route::get('/users', 'index');
-    Route::get('/users/create', 'create');
-    Route::post('/users', 'store');
-    Route::get('/users/{id}', 'show');
-    Route::get('/users/edit/{id}', 'edit');
-    Route::put('/users/{id}', 'update');
-    Route::delete('/users/{id}', 'delete');
-});
-
-Route::controller(BandController::class)->group(function() {
-    Route::get('/bands', 'index');
-    Route::get('/bands/create', 'create');
-    Route::post('/bands', 'store');
-    Route::get('/bands/{id}', 'show');
-    Route::get('/bands/edit/{id}', 'edit');
-    Route::put('/bands/{id}', 'update');
-    Route::delete('/bands/{id}', 'delete');
-});
-
-Route::controller(EventController::class)->group(function() {
-    Route::get('/events', 'index');
-    Route::get('/events/create', 'create');
-    Route::post('/events', 'store');
-    Route::get('/events/{id}', 'show');
-    Route::get('/events/edit/{id}', 'edit');
-    Route::put('/events/{id}', 'update');
-    Route::delete('/events/{id}', 'delete');
-});
-
-Route::controller(InstrumentController::class)->group(function() {
-    Route::get('/instruments', 'index');
-    Route::get('/instruments/create', 'create');
-    Route::post('/instruments', 'store');
-    Route::get('/instruments/{id}', 'show');
-    Route::get('/instruments/edit/{id}', 'edit');
-    Route::put('/instruments/{id}', 'update');
-    Route::delete('/instruments/{id}', 'delete');
-});
-
-// Route::controller(SongController::class)->group(function() {
-//     Route::get('/songs', 'index');
-//     Route::get('/songs/create', 'create');
-//     Route::post('/songs', 'store');
-//     Route::get('/songs/{id}', 'show');
-//     Route::get('/songs/edit/{id}', 'edit');
-//     Route::put('/songs/{id}', 'update');
-//     Route::delete('/songs/{id}', 'delete');
-// });
-
-// Route::controller(TrackController::class)->group(function() {
-//     Route::get('/tracks', 'index');
-//     Route::get('/tracks/create', 'create');
-//     Route::post('/tracks', 'store');
-//     Route::get('/tracks/{id}', 'show');
-//     Route::get('/tracks/edit/{id}', 'edit');
-//     Route::put('/tracks/{id}', 'update');
-//     Route::delete('/tracks/{id}', 'delete');
-// });
+require __DIR__.'/auth.php';
