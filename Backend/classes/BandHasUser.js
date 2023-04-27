@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../connection')
-const Band = require('./Band')
-const User = require('./User')
 
 const BandHasUser = db.define('band_has_user', {
     band_idband: {

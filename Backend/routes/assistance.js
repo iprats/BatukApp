@@ -57,7 +57,7 @@ router.put('/:idevent', (req, res) => {
 
         Promise.all(promises)
         .then(result => res.json(result).status(200))
-        .catch(error => res.error(error))
+        .catch(error => res.send(error).status(500))
     }
     else {
         Assistance.update({
@@ -70,7 +70,7 @@ router.put('/:idevent', (req, res) => {
             }
         })
         .then(result => res.json(result).status(200))
-        .catch(error => res.error(error))
+        .catch(error => res.send(error).status(500))
     }
 })
 

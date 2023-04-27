@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../connection')
-const User = require('./User')
-const Instrument = require('./Instrument')
 
 const UserHasInstrument = db.define('user_has_instrument', {
     user_iduser: {

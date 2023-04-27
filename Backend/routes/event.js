@@ -1,28 +1,44 @@
 const express = require('express');
 const router = express();
-const Event = require('../classes/Event');
+const moment = require('moment');
+const { Op } = require('sequelize');
 const Band = require('../classes/Band');
+const Event = require('../classes/Event');
 const Assistance = require('../classes/Assistance');
-const moment = require('moment')
-const { Op } = require('sequelize')
+const Instrument = require('../classes/Instrument');
+const User = require('../classes/User');
 
 const genericEventBody = {
     include: [
         {
             model: Band,
             attributes: {
-                exclude: ["updatedAt", "createdAt"]
+                exclude: ["createdAt", "updatedAt"]
             }
         },
-        // {
-        //     model: Assistance,
-        //     attributes: {
-        //         exclude: ["updatedAt", "createdAt"]
-        //     }
-        // }
+        {
+            model: Assistance,
+            include: [
+                {
+                    model: Instrument,
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"]
+                    }
+                },
+                {
+                    model: User,
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"]
+                    }
+                }
+            ],
+            attributes: {
+                exclude: ["updatedAt", "createdAt", "instrument_idinstrument", "user_iduser", "event_idevent"]
+            }
+        }
     ],
     attributes: {
-        exclude: ["createAt", "updatedAt"]
+        exclude: ["createdAt", "updatedAt"]
     }
 }
 
@@ -47,11 +63,20 @@ const genericEventBody = {
  *          produces:
  *              - application/json
  */
-router.get('/:idband/date/:month', (req, res) => {
+router.get('/:idband/month/:month/year/:year', (req, res) => {
+    let parsedDate = moment(`${req.params.year}-${req.params.month}-1`, 'YYYY-MM-DD')
+    let endDate = moment(parsedDate).add(1, 'month').add(7, 'days')
+    let startDate = moment(parsedDate).subtract(7, 'days');
+
     Event.findAll({
-        // where: {
-        //     band_idband: req.params.idband
-        // }
+        ...genericEventBody,
+        where: {
+            band_idband: req.params.idband,
+            datetime: {
+                [Op.lte]: endDate,
+                [Op.gte]: startDate
+            }
+        }
     })
     .then(result => res.json(result))
     .catch(error => res.send(error).status(500))
@@ -106,7 +131,7 @@ router.put('/:idevent', (req, res) => {
         }
     })
     .then(result => res.json(result).status(200))
-    .catch(error => res.error(error))
+    .catch(error => res.send(error))
 })
 
 /**
@@ -148,7 +173,7 @@ router.post('/', (req, res) => {
         band_idband: req.body.idband
     })
     .then(result => res.json(result).status(200))
-    .catch(error => res.error(error))
+    .catch(error => res.send(error))
 })
 
 

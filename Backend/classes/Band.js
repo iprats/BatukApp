@@ -19,20 +19,20 @@ const Band = db.define('band', {
 
 /** Relation Band-Song **/
 Band.hasMany(Song, {
-    foreign_key: "band_idband"
+    foreignKey: "band_idband"
 })
 
 Song.belongsTo(Band, {
-    foreign_key: "band_idband"
+    foreignKey: "band_idband"
 })
 
 /** Relation Band-Event **/
 Band.hasMany(Event, {
-    foreign_key: "band_idband"
+    foreignKey: "band_idband"
 })
 
 Event.belongsTo(Band, {
-    foreign_key: "band_idband"
+    foreignKey: "band_idband"
 })
 
 module.exports = Band
