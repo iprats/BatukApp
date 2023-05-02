@@ -10,7 +10,7 @@ const genericUserBody = {
         {
             model: Band,
             through: {
-                attributes: []
+                attributes: ["role"]
             },
             attributes: {
                 exclude: ["createdAt", "updatedAt"]

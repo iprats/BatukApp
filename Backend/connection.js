@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
-const mysqlConnection = new Sequelize('batukapp', 'root', '', {
-    host: 'localhost',
+const mysqlConnection = new Sequelize('batukapp', 'admin', 'pwdbatukapp', {
+    host: 'batukapp-bdd.cfyeejfug09x.eu-west-3.rds.amazonaws.com',
     dialect:  'mysql'
 });
 
