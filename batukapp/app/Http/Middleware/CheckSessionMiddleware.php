@@ -30,7 +30,7 @@ class CheckSessionMiddleware
         }
         else
         {
-            return redirect("/");
+            return redirect(route("comunitat"));
         }
 
 

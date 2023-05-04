@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,9 +23,9 @@ class GoogleController extends Controller
         $user = ApiController::callApi("/users", true, "POST", $user_google);
 
         session_start();
-        session(["google_id" => $user->google_id]);
+        session(["google_id" => $user->google_id, "user" => $user]);
 
-        return redirect("/dashboard");
+        return redirect("/home");
     }
 
     public static function logout(Request $request)
@@ -39,6 +38,6 @@ class GoogleController extends Controller
             $_COOKIE["google_id"] = null;
         }
 
-        return redirect("/");
+        return redirect("/comunitat");
     }
 }

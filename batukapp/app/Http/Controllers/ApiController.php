@@ -12,7 +12,8 @@ class ApiController extends Controller
     public static function callApi($path, $response = true, $method = "GET", $body = "")
     {
         $url = 'http://api-batukapp.cat:4000';
-        $url = 'http://192.168.170.125:4000';
+        //$url = 'http://192.168.170.125:4000';
+
         $url .= $path;
         //dd($url);
 
@@ -29,17 +30,21 @@ class ApiController extends Controller
             curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         }
 
-
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, $response);
 
-        $json_data = curl_exec($ch);
-        curl_close($ch);
-
-        //dd($json_data);
-        $data = json_decode($json_data);
-
-        //dd($data);
-
-        return $data;
+        if($response)
+        {
+            $json_data = curl_exec($ch);
+            curl_close($ch);
+    
+            $data = json_decode($json_data);
+    
+            return $data;
+        }
+        else
+        {
+            $json_data = curl_exec($ch);
+            curl_close($ch);
+        }
     }
 }
