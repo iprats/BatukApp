@@ -10,7 +10,7 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public static function home()
+    public function home()
     {
         //Aqui carregara la quadricula del menu
 
@@ -19,6 +19,8 @@ class HomeController extends Controller
         //Carregar Temes de la Banda // Que passa si te mes bandes?
 
         //Carregara una vista rapida de les seves dades
+        $user = session()->get("user");
+
 
         //Carregara una vista rapida de la pagina de comunitat
 
@@ -26,14 +28,14 @@ class HomeController extends Controller
 
 
 
-        return view("home");
+        return view("home", compact("user"));
     }
 
 
     /**
      * Display a listing of the resource.
      */
-    public static function calendari()
+    public function calendari()
     {
         //Aqui carregara el calendari
 
@@ -43,7 +45,7 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public static function temes()
+    public function temes()
     {
         //Aqui carregara els temes
 
@@ -54,47 +56,44 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public static function perfil()
+    public function perfil()
     {
         $user = session()->get('user');
-        $bandes = [];
         
-        foreach($user->bands as $band)
+        if(isset($user->bands) && count($user->bands) > 0)
         {
-            $banda = new \stdClass();
-
-            $banda->editor = false;
-            $banda->email = $band->email;
-            $banda->name = $band->name;
-            $banda->profile_photo = $band->profile_photo;
-
-            if($band->role == "Editor")
+            foreach($user->bands as $band)
             {
-                $banda->editor = true;
-                $banda->nif = $band->nif;
-
-                $banda->members = ApiController::callApi("/users/band/" . $band->idband);
-
+                $banda = new \stdClass();
+    
+                $banda->editor = false;
+                $banda->email = $band->email;
+                $banda->name = $band->name;
+                $banda->profile_photo = $band->profile_photo;
+    
+                if($band->role == "Editor")
+                {
+                    $banda->editor = true;
+                    $banda->nif = $band->nif;
+    
+                    $banda->members = ApiController::callApi("/users/band/" . $band->idband);
+    
+                }
+    
+                $banda->instruments = [];//ApiController::callApi("/")                  //Agafar instruments que toco a la banda
+    
+                $bandes[] = $banda;
             }
-
-            $banda->instruments = [];//ApiController::callApi("/")                  //Agafar instruments que toco a la banda
-
-            $bandes[] = $banda;
         }
-
-
-
-
-
         
-        return view("perfil.show", compact("user", "bandes"));
+        return view("perfil.show", compact("user"));
     }
 
 
     /**
      * Display a listing of the resource.
      */
-    public static function perfilEdit(Request $request)
+    public function perfilEdit(Request $request)
     {
         $user = session()->get('user');
 
@@ -105,37 +104,56 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public static function perfilSave(Request $request)
+    public function perfilSave(Request $request)
     {
         $user = session()->get('user');
 
-        $editUser = new \stdClass();
 
-        $editUser->name = $request->name;
-        $editUser->dni = $request->dni;
-        $editUser->birth_date = $request->birth_date;
-        $editUser->profile_photo = $request->profile_photo;
-        $editUser->google_id = $user->google_id;
+        $editUser = new \stdClass();    //Aquest es l'objecte que enviare a l'API perque modifiqui la base de dades
+        $updatedUser = $user;           //I aquest objecte es per mantenir els canvis a la session 
 
-        //dd($editUser);
-        $ok = callApi("/users", true, "PUT", $editUser);
+            
+        if(isset($request->name))
+        {
+            $editUser->name = $request->name;
+            $updatedUser->name = $editUser->name;
+        }
+        
+        if(isset($request->dni))
+        {
+            $editUser->dni = $request->dni;
+            $updatedUser->dni = $editUser->dni;
+        }
+        
+        if(isset($request->birth_date))
+        {
+            $editUser->birth_date = $request->birth_date;
+            $updatedUser->birth_date = $editUser->birth_date;
+        }
+        
+        if(isset($request->profile_photo))
+        {
+            $editUser->profile_photo = $request->profile_photo;
+            $updatedUser->profile_photo = $editUser->profile_photo;
+        }
 
+        $ok = ApiController::callApi("/users/" . $user->google_id, true, "PUT", $editUser);
+        
         if($ok)
         {
-
-            $user->name = $request->name;
-            $user->dni = $request->dni;
-            $user->birth_date = $request->birth_date;
-            $user->profile_photo = $request->profile_photo;
+            $user = $updatedUser;
     
             session(["google_id" => $user->google_id, "user" => $user]);
+            
+    
+            return $this->perfil();
         }
         else
         {
-            $error = "No s'ha pogut actualitzar l'usuari";
+            $user->error = "No s'ha pogut actualitzar l'usuari";
+
+            return view("perfil.edit", compact("user"));
         }
-    
-        return view("perfil.edit", compact("user", "error"));
 
     }
 
@@ -143,26 +161,83 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public static function bandaEdit(int $key)
+    public function bandaEdit(int $key)
     {
         $user = session()->get('user');
         
         $banda = $user->bands[$key];
 
-        //dd($banda);
-
-        //AGAFAR UNA BANDA
+        $banda->members = ApiController::callApi("/users/band/" . $banda->idband);
         
-        return view("perfil.editBanda", compact("banda"));
+        return view("perfil.editBanda", compact("banda", "key"));
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function bandaSave(Request $request)
+    {
+        $user = session()->get('user');
+
+
+        $editUser = new \stdClass();    //Aquest es l'objecte que enviare a l'API perque modifiqui la base de dades
+        $updatedUser = $user;           //I aquest objecte es per mantenir els canvis a la session 
+
+            
+        if(isset($request->name))
+        {
+            $editUser->name = $request->name;
+            $updatedUser->name = $editUser->name;
+        }
+        
+        if(isset($request->dni))
+        {
+            $editUser->dni = $request->dni;
+            $updatedUser->dni = $editUser->dni;
+        }
+        
+        if(isset($request->birth_date))
+        {
+            $editUser->birth_date = $request->birth_date;
+            $updatedUser->birth_date = $editUser->birth_date;
+        }
+        
+        if(isset($request->profile_photo))
+        {
+            $editUser->profile_photo = $request->profile_photo;
+            $updatedUser->profile_photo = $editUser->profile_photo;
+        }
+
+        $ok = ApiController::callApi("/users/" . $user->google_id, true, "PUT", $editUser);
+        
+        if($ok)
+        {
+            $user = $updatedUser;
+    
+            session(["google_id" => $user->google_id, "user" => $user]);
+            
+    
+            return $this->perfil();
+        }
+        else
+        {
+            $user->error = "No s'ha pogut actualitzar l'usuari";
+
+            return view("perfil.edit", compact("user"));
+        }
+
     }
 
     
     /**
      * Display a listing of the resource.
      */
-    public static function comunitat()
+    public function comunitat()
     {
         //Aqui carregara la comunitat
+
+        //Aqui carrego els propers events
 
         return view("comunitat");
     }

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'HOME')
+@section('title', 'Inici')
 
 @section('header')
 <div>
     <div name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Home') }}
+            {{ __('Inici') }}
         </h2>
     </div>
 
@@ -15,37 +15,41 @@
 
 @section('content')
 <div class="container">
-    <div class="row py-12">
-        <div class="col-6 text-center">
-            <div class="bg-white overflow-hidden shadow-xl rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-xl">{{ __("Calendari") }}</h3>
-                    <hr>
+        <div class="row py-12">
 
-                    <div class="text-left ">
-                        MINI CALENDARI
+    @if(isset($user->bands) && count($user->bands) > 0)
+            <div class="col-6 text-center">
+                <div class="bg-white overflow-hidden shadow-xl rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        <h3 class="text-xl">{{ __("Calendari") }}</h3>
+                        <hr>
+
+                        <div class="text-left ">
+                            MINI CALENDARI
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-6 text-center">
+                <div class="bg-white overflow-hidden shadow-xl rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        <h3 class="text-xl">{{ __("Temes") }}</h3>
+                        <hr>
+
+                        <div class="text-left">
+                            Tema1<br>
+                            Tema1<br>
+                            Tema1<br>
+                            Tema1<br>
+                        </div>
                     </div>
                 </div>
             </div>
-            
         </div>
-        <div class="col-6 text-center">
-            <div class="bg-white overflow-hidden shadow-xl rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-xl">{{ __("Temes") }}</h3>
-                    <hr>
 
-                    <div class="text-left">
-                        Tema1<br>
-                        Tema1<br>
-                        Tema1<br>
-                        Tema1<br>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="row">
+    @endif
         <div class="col-6 text-center">
             <div class="bg-white overflow-hidden shadow-xl rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -53,9 +57,24 @@
                     <hr>
 
                     <div class="text-left">
-                        Nom: <br>
-                        Cognoms: <br>
-                        Instruments: <br>
+                        <label class="form-label" for="name">Nom: {{$user->name}}</label><br>
+                        @if(isset($user->dni))
+                        <label class="form-label" for="dni">DNI: {{$user->dni}}</label><br>
+                        @endif
+                        @if(isset($user->bands) && count($user->bands) > 0)
+                        <label class="form-label" for="bands">Bandes: /</label>
+
+                            @foreach($user->bands as $band)
+
+
+
+                            <label class="form-label" for="band-name"> {{$band->name}} /</label>
+
+
+                            @endforeach
+
+
+                        @endif
                     </div>
                 </div>
             </div>

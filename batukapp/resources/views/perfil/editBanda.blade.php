@@ -27,7 +27,7 @@
                             <h3>{{ __("Dades Banda") }}</h3>
                         </div>
                         <div class="col-6 text-right">
-                            <button class="btn btn-success" type="submit">Desar</button>
+                            <button class="btn btn-warning" type="submit">Desar</button>
                         </div>
                     </div>
                 </div>
@@ -49,20 +49,57 @@
                         <input class="form-control" type="file" name="profile_photo" id="profile_photo">
                     </div>
                 </div>
-            </form>
             
             @if(isset($error))
                 <span class="bg-danger bg-gradient">{{$error}}</span>
             @endif
 
-            <hr>
-            <div class="py-2 row">
-                <div class="col-12">
-                    MEMBRES
+        </div>
+    </div>
+    <div class="row py-12">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="py-2 row">
+                    <div class="col-6">
+                        <h3>{{ __("Gestionar Membres") }}</h3>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button class="btn btn-warning" type="submit">Desar</button>
+                    </div>
                 </div>
-            </div>
+                <hr>
+                <div class="py-2 row">
+                    <div class="col-12">
+                        @foreach($banda->members as $member)
+                            <div class="row">
+                                <div class="col-3">{{$member->name}}</div>
+                                <div class="col" id="instruments_{{$member->iduser}}"></div>
+                                <div class="col">
+                                    <select name="instruments" id="instruments" class="form-select" onchange="afegirEtiqueta(event, {{$member->iduser}})">
+                                        <option value="" >Escull un instrument per afegir-lo</option>
+                                        @foreach($member->bands as $instrument)
+                                            <option value="{{json_encode($instrument)}}" >{{$instrument->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                        @endforeach
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>    
+
+<script>
+    function afegirEtiqueta(e, idUser)
+    {
+        var instrument = e.target.value;
+        var instrument = JSON.parse(instrument);
+        console.log(instrument);
+        var div = document.getElementById("instruments_" + idUser);
+        div.append(instrument.name + ",");
+    }
+</script>
 
 @endsection

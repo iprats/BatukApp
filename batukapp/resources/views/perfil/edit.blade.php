@@ -17,7 +17,7 @@
 <div class="container">
     <div class="row py-12">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <form action="/perfil/save" method="POST" enctype='multipart/form-data'>
+            <form action="{{route('perfil.save')}}" method="POST" enctype='multipart/form-data'>
             @csrf
             @method("PUT")
                 <div class="p-6 text-gray-900">
@@ -37,24 +37,24 @@
                         <label class="form-label" name="email" id="email">{{$user->email}}</label><br>
 
                         <label class="form-label" for="name">Nom:</label>
-                        <input class="form-control" name="name" id="name" value="{{$user->name}}"><br>
+                        <input class="form-control" name="name" id="name" value="{{$user->name}}" required><br>
                         
                         <label class="form-label" for="dni">DNI:</label>
-                        <input class="form-control" name="dni" id="dni"@if($user->dni) value="{{$user->dni}}" @endif><br>
+                        <input class="form-control" name="dni" id="dni"@if(isset($user->dni)) value="{{$user->dni}}" @endif><br>
                         
                         <label class="form-label" for="birth_date">Data de naixement:</label>
-                        <input type="date" class="form-date" name="birth_date" id="birth_date" @if($user->birth_date) value="{{$user->birth_date}}" @endif><br>
+                        <input type="date" class="form-date" name="birth_date" id="birth_date" @if(isset($user->birth_date)) value="{{$user->birth_date}}" @endif><br>
                     </div>
                     <div class="col-3">
-                        <label class="form-label" for="profile_photo"></label>
-                        <img src="__user->profile_photo__" alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
-                        <input class="form-control" type="file" name="profile_photo" id="profile_photo">
+                        <label class="form-label" for="profile_photo">Imatge de Perfil</label>
+                        <img @if(isset($user->profile_photo)) src="{{$user->profile_photo}}" @endif alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
+                        <input class="form-control" type="file" @if(isset($user->profile_photo)) value="{{$user->profile_photo}}" @endif name="profile_photo" id="profile_photo">
                     </div>
                 </div>
             </form>
 
-            @if(isset($error))
-                <span class="bg-danger bg-gradient">{{$error}}</span>
+            @if(isset($user->error))
+                <div class="alert alert-danger" role="alert">{{$error}}</div>
             @endif
         </div>
     </div>

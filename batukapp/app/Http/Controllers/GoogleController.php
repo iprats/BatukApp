@@ -22,10 +22,18 @@ class GoogleController extends Controller
         $user_google = Socialite::driver('google')->stateless()->user();
         $user = ApiController::callApi("/users", true, "POST", $user_google);
 
+
         session_start();
         session(["google_id" => $user->google_id, "user" => $user]);
 
-        return redirect("/home");
+        if(isset($user->bands) && count($user->bands) > 0)
+        {
+            return redirect("/home");
+        }
+        else
+        {
+            return redirect("/comunitat");
+        }
     }
 
     public static function logout(Request $request)

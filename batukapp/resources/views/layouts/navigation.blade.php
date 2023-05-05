@@ -17,6 +17,7 @@
                         {{ __('Inici') }}
                     </x-nav-link>
                 </div>
+                @if(isset($user->bands) && count($user->bands) > 0)
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{route('calendari')}}"><!--calendari-->
                         {{ __('Calendari') }}
@@ -27,6 +28,7 @@
                         {{ __('Temes') }}
                     </x-nav-link>
                 </div>
+                @endif
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{route('perfil.show')}}"><!--perfil-->
                         {{ __('Perfil') }}
@@ -89,7 +91,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                {{ __('Home') }}
+                {{ __('Inici') }}
             </x-responsive-nav-link>
         </div>
 

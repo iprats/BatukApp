@@ -35,21 +35,22 @@
                     <label class="form-label" id="nom">{{$user->name}}</label><br>
                     
                     <label class="form-label" for="dni">DNI:</label>
-                    <label class="form-label" id="dni">@if($user->dni) {{$user->dni}} @endif</label><br>
+                    <label class="form-label" id="dni">@if(isset($user->dni)) {{$user->dni}} @endif</label><br>
                     
                     <label class="form-label" for="birth_date">Data de naixement:</label>
-                    <label class="form-label" id="birth_date">@if($user->birth_date){{$user->birth_date}}@endif</label><br>
+                    <label class="form-label" id="birth_date">@if(isset($user->birth_date)){{$user->birth_date}}@endif</label><br>
                     
                     <label class="form-label" for="email">Email:</label>
                     <label class="form-label" id="email">{{$user->email}}</label><br>
                 </div>
-                <div class="col-3">
-                    ¿IMAGTE de PERFIL?
-                </div>
+                    <div class="col-3">
+                        <label class="form-label" for="profile_photo">Foto de Perfil:</label>
+                        <img id="profile_photo" @if(isset($user->profile_photo)) src="{{$user->profile_photo}}" @endif alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
+                    </div>
             </div>
         </div>
     </div>
-    
+    @if(isset($user->bands) && count($user->bands) > 0)
     @foreach($bandes as $key => $banda)
     
         <div class="row py-12">
@@ -61,7 +62,6 @@
                         </div>
                     @if($banda->editor)
                         <div class="col-6 text-right">
-
                             <a class="btn btn-warning" href="/banda/{{$key}}">Editar</a>
                         </div>
                     @endif
@@ -89,10 +89,11 @@
                             @endforeach
                         </ul>
                     @endif
-                    
+
                     </div>
                     <div class="col-3">
-                        <img src="{{$banda->profile_photo}}" alt="Logo {{$banda->name}}" style="max: width 300px;">
+                        <label class="form-label" for="logo">Logo Banda:</label>
+                        <img id="logo" src="{{$banda->profile_photo}}" alt="Logo {{$banda->name}}" style="max: width 300px;">
                     </div>
                 </div>
                 <hr>
@@ -110,6 +111,7 @@
             </div>
         </div>
     @endforeach
+    @endif
 </div>    
 
 @endsection

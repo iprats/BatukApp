@@ -27,14 +27,18 @@ class ApiController extends Controller
         if($body != "")
         {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-            curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json', "Content-Length:" . strlen(json_encode($body))));
         }
 
+        //I indiquem si ha de retornar quelcom
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, $response);
+
+        //dd($ch);
 
         if($response)
         {
             $json_data = curl_exec($ch);
+
             curl_close($ch);
     
             $data = json_decode($json_data);
@@ -43,7 +47,7 @@ class ApiController extends Controller
         }
         else
         {
-            $json_data = curl_exec($ch);
+            curl_exec($ch);
             curl_close($ch);
         }
     }
