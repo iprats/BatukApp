@@ -24,7 +24,7 @@
                         <h3 class="text-xl">{{ __("Calendari") }}</h3>
                         <hr>
 
-                        <div class="text-left ">
+                        <div class="text-left">
                             MINI CALENDARI
                         </div>
                     </div>
@@ -94,35 +94,4 @@
         </div>
     </div>
 </div>    
-        <!--
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Calendari") }}
-                </div>
-            </div>
-        </div>
-        
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Temes") }}
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Perfil") }}
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Comunitat") }}
-                </div>
-            </div>
-        </div>-->
-
 @endsection

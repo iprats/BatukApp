@@ -51,7 +51,7 @@
         </div>
     </div>
     @if(isset($user->bands) && count($user->bands) > 0)
-    @foreach($bandes as $key => $banda)
+    @foreach($user->bands as $key => $banda)
     
         <div class="row py-12">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

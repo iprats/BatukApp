@@ -58,7 +58,7 @@ Route::middleware('checkSession')->group(function () {
         Route::get('/perfil/edit', 'perfilEdit')->name('perfil.edit');
         Route::put('/perfil', 'perfilSave')->name('perfil.save');
         Route::get('/banda/{key}', 'bandaEdit')->name('banda.edit');
-        Route::put('/banda/{key}', 'bandaSave')->name('banda.save');
+        Route::put('/banda', 'bandaSave')->name('banda.save');
     });
 
     Route::controller(GoogleController::class)->group(function() {

@@ -26,7 +26,8 @@
                             <h3>{{ __("Dades Personals") }}</h3>
                         </div>
                         <div class="col-6 text-right">
-                            <button class="btn btn-success" type="submit">Desar</button>
+                            <button class="btn btn-warning" type="submit">Desar</button>
+                            <a class="btn btn-danger" href="{{route('perfil.show')}}">Cancelar</a>
                         </div>
                     </div>
                 </div>
