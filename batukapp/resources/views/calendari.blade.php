@@ -15,6 +15,14 @@
 
 @section('content')
 <div class="container">
-    Calendario toh Reshulon
+    <div class="py-12">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900">
+
+                
+
+            </div>
+        </div>
+    </div>
 </div>    
 @endsection

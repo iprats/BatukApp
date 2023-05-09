@@ -49,7 +49,7 @@
                     <div class="col-3">
                         <label class="form-label" for="profile_photo">Imatge de Perfil</label>
                         <img @if(isset($user->profile_photo)) src="{{$user->profile_photo}}" @endif alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
-                        <input class="form-control" type="file" @if(isset($user->profile_photo)) value="{{$user->profile_photo}}" @endif name="profile_photo" id="profile_photo">
+                        <!-- <input class="form-control" type="file" @ if(isset($ user->profile_photo)) value="{ {$user->profile_photo} }" @ endif name="profile_photo" id="profile_photo"> -->
                     </div>
                 </div>
             </form>

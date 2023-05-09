@@ -26,7 +26,7 @@ class GoogleController extends Controller
         session_start();
         session(["google_id" => $user->google_id, "user" => $user]);
 
-        if(isset($user->bands) && count($user->bands) > 0)
+        if((isset($user->bands) && count($user->bands) > 0) || isset($user->idband))
         {
             return redirect("/home");
         }

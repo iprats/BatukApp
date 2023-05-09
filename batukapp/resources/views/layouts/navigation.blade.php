@@ -17,7 +17,7 @@
                         {{ __('Inici') }}
                     </x-nav-link>
                 </div>
-                @if(isset($user->bands) && count($user->bands) > 0)
+                @if((isset($user->bands) && count($user->bands) > 0) || isset($user->idband))
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{route('calendari')}}"><!--calendari-->
                         {{ __('Calendari') }}

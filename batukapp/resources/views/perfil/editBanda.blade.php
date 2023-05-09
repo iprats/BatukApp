@@ -41,13 +41,16 @@
                         <label class="form-label" for="nif">NIF:</label>
                         <input class="form-control" name="nif" id="nif"@if($banda->nif) value="{{$banda->nif}}" @endif><br>
                         
+                        <label class="form-label" for="location">Seu:</label>
+                        <input class="form-control" name="location" id="location"@if($banda->location) value="{{$banda->location}}" @endif><br>
+                        
                         <label class="form-label" for="email">Email:</label>
                         <label class="form-label" id="email">{{$banda->email}}</label><br>
                     </div>
                     <div class="col-3">
                         <label for="profile_photo">Logo</label>
                         <img src="{{$banda->profile_photo}}" alt="Logo {{$banda->name}}" style="max: width 300px;">
-                        <input class="form-control" type="file" name="profile_photo" id="profile_photo">
+                        <!-- <input class="form-control" type="file" name="profile_photo" id="profile_photo"> -->
                     </div>
                 </div>
             
@@ -80,6 +83,12 @@
                                 <div class="col-2">
                                     <b>Nou instrument</b>
                                 </div>
+
+                                @if(isset($user->idband))
+                                <div class="col-2">
+                                    <b>Rol</b>
+                                </div>
+                                @endif
                             </div>
                     <div class="col-12">
                         @foreach($banda->members as $member)
@@ -108,6 +117,14 @@
                                     @endif
                                     </select>
                                 </div>
+                                @if(isset($user->idband))
+                                <div class="col-2">
+                                    <select name="rol[{{$member->iduser}}]" id="rol[{{$member->iduser}}]" class="form-select">
+                                        <option value="Editor" @if($member->role == "Editor") selected @endif>Editor</option>
+                                        <option value="Member" @if($member->role == "Member") selected @endif>Membre</option>
+                                    </select>
+                                </div>
+                                @endif
                             </div>
 
 
@@ -147,7 +164,7 @@
         {             
             lbl_instrument = "<label for='inst_name' id='lbl_inst_" + instrument.idinstrument + "'>, " + instrument.name + "</label>";
             div.append(lbl_instrument);
-            inp.val(inp.val() + ", " + instrument.idinstrument);
+            inp.val(inp.val() + "," + instrument.idinstrument);
         }
         else
         {
