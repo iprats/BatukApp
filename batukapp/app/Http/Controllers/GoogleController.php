@@ -22,9 +22,13 @@ class GoogleController extends Controller
         $user_google = Socialite::driver('google')->stateless()->user();
         $user = ApiController::callApi("/users", true, "POST", $user_google);
 
+        $timezone = new \DateTimeZone("Europe/Andorra");
+        $dateTime = new \DateTime("now", $timezone);
+        $utc = $timezone->getOffset($dateTime) / 3600;
 
+        
         session_start();
-        session(["google_id" => $user->google_id, "user" => $user]);
+        session(["google_id" => $user->google_id, "user" => $user, "utc" => $utc]);
 
         if((isset($user->bands) && count($user->bands) > 0) || isset($user->idband))
         {

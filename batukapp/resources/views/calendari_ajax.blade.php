@@ -33,125 +33,75 @@
                 <h5 class="modal-title" id="eventModalLabel">Editar Event</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
             </div>
-            <form action="{{route('calendari.action')}}" method="POST">
-                @csrf
-                <div class="modal-body row">
+            <div class="modal-body row">
 
-                    <div class="col-6">
-                        <input class="form-label" type="number" name="eventModal_id" id="eventModal_id" hidden>
-                    
-                        <label class="form-label" for="eventModal_name">Nom:</label>
-                        <input class="form-control" name="eventModal_name" id="eventModal_name" required><br>
-                    </div>
-                    
-
-                    @if(isset($user->idband))
-                    <input type="hidden" name="eventModal_idband" id="eventModal_idband">
-
-
-                    <div class="col-6">
-                        <label class="form-label" for="eventModal_location">Ubicacio:</label>
-                        <input class="form-control" name="eventModal_location" id="eventModal_location" required><br>
-                    </div>
-                    <div class="col-12">
-
-                        <label class="form-label" for="eventModal_description">Descripcio:</label>
-                        <input class="form-control" name="eventModal_description" id="eventModal_description"><br>
-                    </div>
-                    @else
-                    <div class="col-6">
-                        <label class="form-label" for="eventModal_idband">Banda:</label>
-                        <select class="form-control" name="eventModal_idband" id="eventModal_idband" required>
-                            @foreach($user->bands as $band)
-                            @if($band->role == "Editor")
-                                <option value="{{$band->idband}}">{{$band->name}}</option>
-                            @endif
-                            @endforeach
-
-                        </select>
-                        <br>
-                    </div>
-
-                    <div class="col-6">
-
-
-                        <label class="form-label" for="eventModal_location">Ubicacio:</label>
-                        <input class="form-control" name="eventModal_location" id="eventModal_location" required><br>
-                    </div>
-                    <div class="col-6">
-
-                        <label class="form-label" for="eventModal_description">Descripcio:</label>
-                        <input class="form-control" name="eventModal_description" id="eventModal_description"><br>
-                    </div>
-                    @endif
-
-                    <div class="col-6">
-
-                        <label class="form-label" for="eventModal_start_date">Dia Inici:</label>
-                        <input type="date"class="form-control" name="eventModal_start_date" id="eventModal_start_date" required><br>
-                    </div>
-                    <div class="col-6">
-
-                        <label class="form-label" for="eventModal_start_hour">Hora Inici:</label>
-                        <input type="time" class="form-control" name="eventModal_start_hour" id="eventModal_start_hour" required><br>
-                    </div>
-                    <!-- <div class="col-6">
-
-                        <label class="form-label" for="eventModal_end_date">Dia Final:</label>
-                        <input type="date"class="form-control" name="eventModal_end_date" id="eventModal_end_date"><br>
-                    </div>
-                    <div class="col-6">
-
-                        <label class="form-label" for="eventModal_end_hour">Hora Final:</label>
-                        <input type="time" class="form-control" name="eventModal_end_hour" id="eventModal_end_hour"><br>
-                    </div> -->
-                    <div class="col-6">
-
-                        <label class="form-label" for="eventModal_status">Estat:</label>
-                        <select class="form-control" name="eventModal_status" id="eventModal_status" required>
-                            @foreach($statuses as $status)
-                                <option value="{{$status}}">{{$status}}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                    </div>
-                    <div class="col-6">
-
-                        <!-- <label class="form-label" for="eventModal_main_photo" >Imatge principal:</label>
-                        <input type="file" class="form-control" name="eventModal_main_photo" id="eventModal_main_photo"><br> -->
-
-                    </div>
-                    <div class="col-6">
-
-                        <input class="form-control" type="checkbox" name="eventModal_private" id="eventModal_private">
-                        <label class="form-label" for="eventModal_private">Privat</label><br>
-<input type="hidden" name="type" value="update">
-                    </div>
+                <div class="col-6">
                 
+                    <label class="form-label" for="eventModal_name">Nom:</label>
+                    <input class="form-control" name="eventModal_name" id="eventModal_name" required><br>
 
-                <br>
-                <hr>
-                <br>
+                    <label class="form-label" for="eventModal_location">Ubicacio:</label>
+                    <input class="form-control" name="eventModal_location" id="eventModal_location" required><br>
 
-                <div class="row">
-                    <label class="form-label col">Assistencia</label>
-                    <a class="col text-right" onclick="$('.assistenciaBanda').toggle()"><i class="bi bi-caret-up-fill assistenciaBanda"></i><i class="bi bi-caret-down-fill assistenciaBanda" style="display:none"></i></a>
-                </div><br>
+                    <label class="form-label" for="eventModal_start_date">Dia Inici:</label>
+                    <input type="date"class="form-control" name="eventModal_start_date" id="eventModal_start_date" required><br>
 
-                <div id="assistenciaBanda" class="assistenciaBanda row">
-<!-- Aqui carregare el llistat de usuaris per assignar assistencia i instruments als que assisteixin -->
-    
+                    <label class="form-label" for="eventModal_start_hour">Hora Inici:</label>
+                    <input type="time" class="form-control" name="eventModal_start_hour" id="eventModal_start_hour" required><br>
+
+                    <label class="form-label" for="eventModal_status">Estat:</label>
+                    <select class="form-control" name="eventModal_status" id="eventModal_status" required>
+                        @foreach($statuses as $status)
+                            <option value="{{$status}}">{{$status}}</option>
+                        @endforeach
+                    </select>
+                    <br>
+
+                    <input class="form-control" type="checkbox" checked name="eventModal_private" id="eventModal_private" required>
+                    <label class="form-label" for="eventModal_private">Privat</label><br>
 
                 </div>
 
+                <div class="col-6">
+                @if(isset($user->idband))
+                    <label class="form-label" for="eventModal_idband">Banda:</label>
+                    <select class="form-control" name="eventModal_idband" id="eventModal_idband" required>
+                        <option value="{{$user->idband}}">{{$user->name}}</option>
+
+                    </select>
+                    <br>
+                @else
+                    <label class="form-label" for="eventModal_idband">Banda:</label>
+                    <select class="form-control" name="eventModal_idband" id="eventModal_idband" required>
+                        @foreach($user->bands as $band)
+                        @if($band->role == "Editor")
+                            <option value="{{$band->idband}}">{{$band->name}}</option>
+                        @endif
+                        @endforeach
+
+                    </select>
+                    <br>
+                @endif
+
+                    <label class="form-label" for="eventModal_description">Descripcio:</label>
+                    <input class="form-control" name="eventModal_description" id="eventModal_description"><br>
+
+                    <label class="form-label" for="eventModal_end_date">Dia Final:</label>
+                    <input type="date"class="form-control" name="eventModal_end_date" id="eventModal_end_date"><br>
+
+                    <label class="form-label" for="eventModal_end_hour">Hora Final:</label>
+                    <input type="time" class="form-control" name="eventModal_end_hour" id="eventModal_end_hour"><br>
+
+                    <!-- <label class="form-label" for="eventModal_main_photo" >Imatge principal:</label>
+                    <input type="file" class="form-control" name="eventModal_main_photo" id="eventModal_main_photo"><br> -->
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" style="color:black" data-bs-dismiss="modal">Tanca</button>
-                    <button type="submit" class="btn btn-warning">Guardar Canvis</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" style="color:black" data-bs-dismiss="modal">Tanca</button>
+                <button type="button" class="btn btn-warning" onclick="enviarEvent('eventModal_', 'update')">Guardar Canvis</button>
 
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -164,33 +114,45 @@
                 <h5 class="modal-title" id="createEventModalLabel">Crear Event</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
             </div>
-            <form action="{{route('calendari.action')}}" method="POST">
-                @csrf
+            <form action="{{route('calendari.action')}}" id="ajax-form">
                 <div class="modal-body row">
-
 
                     <div class="col-6">
                     
                         <label class="form-label" for="name">Nom:</label>
                         <input class="form-control" name="name" id="name" required><br>
-                    </div>
 
-                    @if(isset($user->idband))
-                    
-                    <input type="hidden" name="idband" id="idband">
-
-                    <div class="col-6">
                         <label class="form-label" for="location">Ubicacio:</label>
                         <input class="form-control" name="location" id="location" required><br>
+
+                        <label class="form-label" for="start_date">Dia Inici:</label>
+                        <input type="date"class="form-control" name="start_date" id="start_date" required><br>
+
+                        <label class="form-label" for="start_hour">Hora Inici:</label>
+                        <input type="time" class="form-control" name="start_hour" id="start_hour" required><br>
+
+                        <label class="form-label" for="status">Estat:</label>
+                        <select class="form-control" name="status" id="status" required>
+                            @foreach($statuses as $status)
+                                <option value="{{$status}}">{{$status}}</option>
+                            @endforeach
+                        </select>
+                        <br>
+
+                        <input class="form-control" type="checkbox" checked name="private" id="private" required>
+                        <label class="form-label" for="private">Privat</label><br>
+
                     </div>
 
-                    <div class="col-12">
-
-                        <label class="form-label" for="description">Descripcio:</label>
-                        <input class="form-control" name="description" id="description"><br>
-                    </div>
-                    @else
                     <div class="col-6">
+                    @if(isset($user->idband))
+                        <label class="form-label" for="idband">Banda:</label>
+                        <select class="form-control" name="idband" id="idband" required>
+                            <option value="{{$user->idband}}">{{$user->name}}</option>
+
+                        </select>
+                        <br>
+                    @else
                         <label class="form-label" for="idband">Banda:</label>
                         <select class="form-control" name="idband" id="idband" required>
                             @foreach($user->bands as $band)
@@ -201,77 +163,29 @@
 
                         </select>
                         <br>
-                    </div>
-
-                    <div class="col-6">
-                        <label class="form-label" for="location">Ubicacio:</label>
-                        <input class="form-control" name="location" id="location" required><br>
-                    </div>
-
-                    <div class="col-6">
+                    @endif
 
                         <label class="form-label" for="description">Descripcio:</label>
                         <input class="form-control" name="description" id="description"><br>
-                    </div>
-                    @endif
-
-                    <div class="col-6">
-
-                        <label class="form-label" for="start_date">Dia Inici:</label>
-                        <input type="date"class="form-control" name="start_date" id="start_date" required><br>
-                    </div>
-
-                    <div class="col-6">
-
-                        <label class="form-label" for="start_hour">Hora Inici:</label>
-                        <input type="time" class="form-control" name="start_hour" id="start_hour" required><br>
-                    </div>
-
-                    <!-- <div class="col-6">
 
                         <label class="form-label" for="end_date">Dia Final:</label>
                         <input type="date"class="form-control" name="end_date" id="end_date"><br>
-                    </div>
-
-                    <div class="col-6">
 
                         <label class="form-label" for="end_hour">Hora Final:</label>
                         <input type="time" class="form-control" name="end_hour" id="end_hour"><br>
-                    </div> -->
-
-                    <div class="col-6">
-
-                        <label class="form-label" for="status">Estat:</label>
-                        <select class="form-control" name="status" id="status" required>
-                            @foreach($statuses as $status)
-                                <option value="{{$status}}">{{$status}}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                    </div>
-
-                    <div class="col-6">
 
                         <!-- <label class="form-label" for="main_photo" >Imatge principal:</label>
                         <input type="file" class="form-control" name="main_photo" id="main_photo"><br> -->
 
                     
                     </div>
-
-                    <div class="col-6">
-
-                        <input class="form-control" type="checkbox" checked name="private" id="private">
-                        <label class="form-label" for="private">Privat</label><br>
-
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" style="color:black" data-bs-dismiss="modal">Tancar</button>
                     <button type="submit" class="btn btn-warning">Crear</button>
-                    <!-- -->
+                    <!-- onclick="enviarEvent('', 'add')"  -->
 
                 </div>
-                <input type="hidden" name="type" value="add">
             </form>
         </div>
     </div>
@@ -289,8 +203,6 @@
 
                 <div class="col-6">
                 
-                    <label class="form-label" name="eventShow_id" id="eventShow_id" hidden></label>
-                    
                     <label class="form-label" for="eventShow_name">Nom:</label>
                     <label class="form-label" name="eventShow_name" id="eventShow_name"></label><br>
 
@@ -316,17 +228,17 @@
                     <label class="form-label" name="eventShow_idband" id="eventShow_idband" hidden></label>
                     <label class="form-label" name="eventShow_band_name" id="eventShow_band_name"></label><br>
                 @else
-                    <label class="form-label" name="eventShow_idband" id="eventShow_idband" hidden></label>
+                    <label class="form-label" name="eventShow_idband" id="eventShow_idband"></label><br>
                 @endif
 
                     <label class="form-label" for="eventShow_description">Descripcio:</label>
                     <label class="form-label" name="eventShow_description" id="eventShow_description"></label><br>
 
-                    <!-- <label class="form-label" for="eventShow_end_date">Dia Final:</label>
+                    <label class="form-label" for="eventShow_end_date">Dia Final:</label>
                     <label class="form-label" name="eventShow_end_date" id="eventShow_end_date"></label><br>
 
                     <label class="form-label" for="eventShow_end_hour">Hora Final:</label>
-                    <label class="form-label" name="eventShow_end_hour" id="eventShow_end_hour"></label><br> -->
+                    <label class="form-label" name="eventShow_end_hour" id="eventShow_end_hour"></label><br>
 
                     <!-- <label class="form-label" for="eventShow_main_photo" >Imatge principal:</label>
                     <input class="form-label" name="eventShow_main_photo" id="eventShow_main_photo"><br> -->
@@ -337,14 +249,7 @@
                 <button type="button" class="btn btn-danger" style="color:black" data-bs-dismiss="modal">Tancar</button>
 
                 <!-- NOMES PER EDITORS I BANDES -->
-                <button type="button" class="btn btn-warning" id="btnEditarEvent" onclick="obrirModalEvent($('#eventShow_id').text())">Editar</button>
-                    @if(isset($user->iduser))
-
-                        <button type="button" class="btn btn-primary" style="color:black" onclick="obrirModalAssistencia($('#eventShow_id').text())">Marcar Assistencia</button>
-
-                        
-                    
-                    @endif
+                <button type="button" class="btn btn-warning" id="btnEditarEvent" onclick="obrirModalEvent($('#eventShow_idband').text())">Editar</button>
 
             </div>
         </div>
@@ -353,57 +258,6 @@
 
 
 
-<!-- Assistencia Modal -->
-<div class="modal" id="assistenciaModal" tabindex="-1" aria-labelledby="assistenciaModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="assistenciaModalLabel">Signar Assistencia</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-            </div>
-            <form action="{{route('calendari.action')}}" method="POST">
-                @csrf
-                <div class="modal-body row">
-
-                    <div class="col-6">
-                
-                        <input class="form-label" name="assistenciaModal_id" id="assistenciaModal_id" type="number" hidden>
-                        <input class="form-label" name="assistenciaModal_iduser" id="assistenciaModal_iduser" type="number" hidden>
-                        
-                        <label class="form-label" for="assistenciaModal_name">Nom:</label>
-                        <label class="form-label" name="assistenciaModal_name" id="assistenciaModal_name"></label><br>
-
-                        <label class="form-label" for="assistenciaModal_location">Ubicacio:</label>
-                        <label class="form-label" name="assistenciaModal_location" id="assistenciaModal_location"></label><br>
-
-                        <label class="form-label" for="assistenciaModal_start_date">Dia Inici:</label>
-                        <label class="form-label" name="assistenciaModal_start_date" id="assistenciaModal_start_date"></label><br>
-
-                        <label class="form-label" for="assistenciaModal_start_hour">Hora Inici:</label>
-                        <label class="form-label" name="assistenciaModal_start_hour" id="assistenciaModal_start_hour"></label><br>
-
-                    </div>
-
-                    <div class="col-6">
-
-                        <select name="assistenciaModal_assistance" id="assistenciaModal_assistance">
-                            @foreach($responses as $response)
-                                <option value="{{$response}}">{{$response}}</option>
-                            @endforeach
-                        </select>
-
-                    </div>
-                <input type="hidden" name="type" value="sign">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" style="color:black" data-bs-dismiss="modal">Tanca</button>
-                    <button type="submit" class="btn btn-primary" style="color:black">Signar</button>
-
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
 
@@ -422,6 +276,7 @@
     </div>    
 </div>    
 
+
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
     <script>
         
@@ -434,23 +289,15 @@
 
         var data = "{{$data}}";
         var jsonUser = "{{$jsonUser}}";
-        var membresBanda = "{{$membresBanda}}";
         const regex = /&quot;/ig;
-
-
         data = data.replaceAll(regex, '"');
         data = JSON.parse(data);
-        //console.log(data);
+        console.log(data);
 
         
         jsonUser = jsonUser.replaceAll(regex, '"');
         jsonUser = JSON.parse(jsonUser);
-        //console.log(jsonUser);
-
-        
-        membresBanda = membresBanda.replaceAll(regex, '"');
-        membresBanda = JSON.parse(membresBanda);
-        //console.log(membresBanda);
+        console.log(jsonUser);
 
 
         var bandAccess = [];
@@ -474,30 +321,21 @@
         $(document).ready(function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                timeZone: 'local',
-                events: data,
-                eventDisplay: "block",
+                events: '/calendari',
 
                 eventClick: function(info){
-
-                    //console.log(info.event);
 
                     obrirModalShow(info.event.id);
                 },
                 dateClick: function(info) {
 
-                    //console.log(bandAccess.length == 0);
+                    console.log(bandAccess.length == 0);
                             
                     if(bandAccess.length != 0)
                     {
                         obrirModalCrear(info.dateStr);
                     }
                     
-                },
-                eventTimeFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
                 }
             });
 
@@ -506,11 +344,11 @@
 
         function obrirModalCrear()
         {
-            $('#createEventModal').modal('toggle');
-            if(jsonUser.idband)
+            if(this)
             {
-                $("#idband").val(jsonUser.idband);
+                this.modal("toggle");
             }
+            $('#createEventModal').modal('toggle');
         }
 
         function obrirModalCrear(date)
@@ -518,21 +356,19 @@
             $('#createEventModal').modal('toggle');
             $("#start_date").val(date);
             $("#start_hour").val("12:00");
-            if(jsonUser.idband)
-            {
-                $("#idband").val(jsonUser.idband);
-            }
         }
 
         function obrirModalShow(id)
         {
             var event = buscarEvent(id);
 
+            var camps = ["eventShow","eventShow_name","eventShow_location","eventShow_description","eventShow_start_date","eventShow_start_hour","eventShow_end_date","eventShow_end_hour","eventShow_idband","eventShow_status","eventShow_private"]
+
             if(event)
             {
                 var start = new Date(event.start);
                 var any = start.getFullYear();
-                var mes = start.getMonth().toString().length == 1 ? (start.getMonth() + 1).toString().padStart(2, "0") : (start.getMonth() + 1);
+                var mes = start.getMonth().toString().length == 1 ? start.getMonth().toString().padStart(2, "0") : start.getMonth();
                 var dia = start.getDate().toString().length == 1 ? start.getDate().toString().padStart(2, "0") : start.getDate();
                 var hour = start.getHours().toString().length == 1 ? start.getHours().toString().padStart(2, "0") : start.getHours();
                 var min = start.getMinutes().toString().length == 1 ? start.getMinutes().toString().padStart(2, "0") : start.getMinutes();
@@ -540,37 +376,37 @@
                 var start_date = any + "-" + mes + "-" + dia;
                 var start_hour = hour + ":" + min;
 
-                $('#eventShow_start_date').text(start_date);
-                $('#eventShow_start_hour').text(start_hour);
-                
                 if(event.end)
                 {
                     var end = new Date(event.end);
                     var any = end.getFullYear();
-                    var mes = end.getMonth().toString().length == 1 ? (end.getMonth() + 1).toString().padStart(2, "0") : (end.getMonth() + 1);
+                    var mes = end.getMonth().toString().length == 1 ? end.getMonth().toString().padStart(2, "0") : end.getMonth();
                     var dia = end.getDate().toString().length == 1 ? end.getDate().toString().padStart(2, "0") : end.getDate();
                     var hour = end.getHours().toString().length == 1 ? end.getHours().toString().padStart(2, "0") : end.getHours();
                     var min = end.getMinutes().toString().length == 1 ? end.getMinutes().toString().padStart(2, "0") : end.getMinutes();
 
                     var end_date = any + "-" + mes + "-" + dia;
                     var end_hour = hour + ":" + min;
-
-                    $('#eventShow_end_date').text(end_date);
-                    $('#eventShow_end_hour').text(end_hour);
-                    
                 }
                 
+                //console.log(start_date);
+
                 $('#eventShow').modal('toggle');
-                $('#eventShow_id').text(event.id);
-
-                $('#eventShow_name').text(event.name);
-
-                console.log(event);
+                $('#eventShow_name').text(event.title);
                 $('#eventShow_location').text(event.location);
                 $('#eventShow_description').text(event.description);
+                $('#eventShow_start_date').text(start_date);
+                $('#eventShow_start_hour').text(start_hour);
 
+                if(event.end)
+                {
+                    $('#eventShow_end_date').text(end_date);
+                    $('#eventShow_end_hour').text(end_hour);
+                }
+
+
+                //Pels selects: foreach selectOption buscar quin value es igual a la id
                 $('#eventShow_band_name').text(event.band_name);
-
                 $('#eventShow_idband').text(event.idband);
                 $('#eventShow_status').text(event.status);
 
@@ -599,17 +435,13 @@
         {
             $("#eventShow").modal("hide");
 
-            $("#assistenciaBanda").text("");
-
             event = buscarEvent(id);
-
-
 
             if(event)
             {
                 var start = new Date(event.start);
                 var any = start.getFullYear();
-                var mes = start.getMonth().toString().length == 1 ? (start.getMonth() + 1).toString().padStart(2, "0") : (start.getMonth() + 1);
+                var mes = start.getMonth().toString().length == 1 ? start.getMonth().toString().padStart(2, "0") : start.getMonth();
                 var dia = start.getDate().toString().length == 1 ? start.getDate().toString().padStart(2, "0") : start.getDate();
                 var hour = start.getHours().toString().length == 1 ? start.getHours().toString().padStart(2, "0") : start.getHours();
                 var min = start.getMinutes().toString().length == 1 ? start.getMinutes().toString().padStart(2, "0") : start.getMinutes();
@@ -621,145 +453,40 @@
                 {
                     var end = new Date(event.end);
                     var any = end.getFullYear();
-                    var mes = end.getMonth().toString().length == 1 ? (end.getMonth() + 1).toString().padStart(2, "0") : (end.getMonth() + 1);
+                    var mes = end.getMonth().toString().length == 1 ? end.getMonth().toString().padStart(2, "0") : end.getMonth();
                     var dia = end.getDate().toString().length == 1 ? end.getDate().toString().padStart(2, "0") : end.getDate();
                     var hour = end.getHours().toString().length == 1 ? end.getHours().toString().padStart(2, "0") : end.getHours();
                     var min = end.getMinutes().toString().length == 1 ? end.getMinutes().toString().padStart(2, "0") : end.getMinutes();
                     
                     var end_date = any + "-" + mes + "-" + dia;
                     var end_hour = hour + ":" + min;
-
-                    $('#eventModal_end_date').val(end_date);
-                    $('#eventModal_end_hour').val(end_hour);
                 }
                 //console.log(start_date);
 
                 $('#eventModal').modal('toggle');
-                $('#eventModal_id').val(event.id);
-                //$('#eventModal_name').val(event.title);
-                $('#eventModal_name').val(event.name);
+                $('#eventModal_name').val(event.title);
                 $('#eventModal_location').val(event.location);
                 $('#eventModal_description').val(event.description);
                 $('#eventModal_start_date').val(start_date);
                 $('#eventModal_start_hour').val(start_hour);
-                if(jsonUser.iduser)
+
+                if(event.end)
                 {
-                    $('#eventModal_idband').val(event.idband); // Select bandes
+                    $('#eventModal_end_date').val(end_date);
+                    $('#eventModal_end_hour').val(end_hour);
                 }
-                else
-                {
-                    $('#eventModal_idband').val(jsonUser.idband);
-                }
-                
-                $('#eventModal_status').val(event.status);
+
+                //Pels selects: foreach selectOption buscar quin value es igual a la id
+                // $('#eventModal_idband').val();
+                // $('#eventModal_status').val();
 
                 //Pel Checkbox: posar/treure l'atribut checked
-
-                $('#eventModal_private').prop("checked", event.private);
-                
-                
-                bandAccess.forEach(band => {//Aqui creo cada linia d'assistencia per usuari
-                    if(band.idband == event.idband)
-                    {
-                        membresBanda[band.idband].forEach(us => { //EX: NOM "iduser" | Select Assistencia | Select Instrument
-
-                            var row = '<div class="col-4"><label for="user_name ' + us.iduser + ' "> ' + us.name + ' </label></div><div class="col-4"><select onchange="comprovarAssistencia(' + us.iduser + ')" class="form-control" name="selAssis[' + us.iduser + ']" id="selAssis_' + us.iduser + '"><option value="">Assistencia</option>@foreach($responses as $response) <option value="{{$response}}">{{$response}}</option> @endforeach</select></div><div class="col-4"><select class="form-control" name="selInstr[' + us.iduser + ']" id="selInstr_' + us.iduser + '" style="display:none"><option value="">Instrument</option></select></div>';
-                            
-                            $("#assistenciaBanda").append(row);
-                            //console.log(us.instruments);
-
-                            us.instruments.forEach(ins => {// Per cada usuari de la banda omplo el select amb els intruments que sap tocar
-
-                                var opt = '<option value="' + ins.idinstrument + '">' + ins.name + '</option>';
-
-                                $('#selInstr_' + us.iduser).append(opt);
-                                
-                            });
-
-                        });
-
-
-                    }
-                });
-
-                if(event.assistance.length > 0)                  //si existeixen registres d'assistencia, modifico les linies dels usuaris 
-                {// Per cada usuari de la banda si tenen un registre a la base de dades assigno les respostes corresponents
-                    //console.log("assignarAssistenciaInstrument", event.assistance);           
-
-                    event.assistance.forEach(assis =>{
-                    //console.log("Assignant", assis);           
-                        $('#selAssis_' + assis.user.iduser).val(assis.answer);
-                        comprovarAssistencia(assis.user.iduser);
-
-                        if(assis.instrument)
-                        {
-                            $('#selInstr_' + assis.user.iduser).val(assis.instrument.idinstrument);
-                        }
-
-                    });
-                }
-                
-            }
-        }
-
-        function comprovarAssistencia(id)
-        {// Mostro o amago el select d'instrument en funcio l'assistencia de la gent
-            if($('#selAssis_' + id).val() == "Si" || $('#selAssis_' + id).val() == "Si + Transport")
-            {
-                $('#selInstr_' + id).show();
-            }
-            else
-            {
-                $('#selInstr_' + id).hide();
-            }
-        }
-
-        function obrirModalAssistencia(id)
-        {
-            $("#eventShow").modal("hide");
-
-            event = buscarEvent(id);
-
-
-
-            if(event)
-            {
-                var start = new Date(event.start);
-                var any = start.getFullYear();
-                var mes = start.getMonth().toString().length == 1 ? (start.getMonth() + 1).toString().padStart(2, "0") : (start.getMonth() + 1);
-                var dia = start.getDate().toString().length == 1 ? start.getDate().toString().padStart(2, "0") : start.getDate();
-                var hour = start.getHours().toString().length == 1 ? start.getHours().toString().padStart(2, "0") : start.getHours();
-                var min = start.getMinutes().toString().length == 1 ? start.getMinutes().toString().padStart(2, "0") : start.getMinutes();
-                
-                var start_date = any + "-" + mes + "-" + dia;
-                var start_hour = hour + ":" + min;
-                console.log(event);
-
-                $('#assistenciaModal').modal('toggle');
-                $('#assistenciaModal_id').val(event.id);
-                console.log($('#assistenciaModal_id').val());
-                $('#assistenciaModal_iduser').val(jsonUser.iduser);
-                console.log($('#assistenciaModal_iduser').val());
-                //$('#assistenciaModal_name').text(event.title);
-                $('#assistenciaModal_name').text(event.name);
-                $('#assistenciaModal_location').text(event.location);
-                $('#assistenciaModal_start_date').text(start_date);
-                $('#assistenciaModal_start_hour').text(start_hour);
-
-                if(event.assistance.length > 0)
-                {
-                    event.assistance.forEach(assis => {
-                        if(assis.user.iduser == jsonUser.iduser)
-                        {
-                            $('#assistenciaModal_assistance').val(assis.answer);
-                        }
-                    });
-                }
+                // $('#eventModal_private').css();
 
                 
             }
         }
-/*
+
         function enviarEvent(origen, action)
         {
             var enviar = true;
@@ -920,7 +647,7 @@
                 console.log(data);
             }
         }
-*/
+
         // HELPER FUNCTIONS
 
         function buscarEvent(id)
@@ -943,6 +670,36 @@
             return trobat ? data[i] : null;
         }
 
+        
+        $('#ajax-form').submit(function(e) {
+            e.preventDefault();
+
+            var data_ = enviarEvent("modalEvent_", "add");
+
+
+        
+            console.log("preventSubmit");    
+            $.ajax({
+                url:"{{route('calendari.action')}}",
+                type:"POST",
+                dataType: 'JSON',
+                data:data_,
+                success:function(data)
+                {
+                    console.log(data);
+                    calendar.fullCalendar('refetchEvents');
+                    alert("Event Created Successfully");
+                },
+                error: function(response){
+                    $('#ajax-form').find(".print-error-msg").find("ul").html('');
+                    $('#ajax-form').find(".print-error-msg").css('display','block');
+                    $.each( response.responseJSON.errors, function( key, value ) {
+                        $('#ajax-form').find(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+                    });
+                }
+            });
+        
+        });
 
 
 

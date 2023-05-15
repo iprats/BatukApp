@@ -46,7 +46,7 @@
                     </div>
                         <div class="col-3">
                             <label class="form-label" for="profile_photo">Foto de Perfil:</label>
-                            <img id="profile_photo" @if(isset($user->profile_photo)) src="{{$user->profile_photo}}" @endif alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
+                            <img class="rounded-lg" id="profile_photo" @if(isset($user->profile_photo)) src="{{$user->profile_photo}}" @endif alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
                         </div>
                 </div>
             </div>
@@ -81,11 +81,10 @@
                                 <label class="form-control" id="nif">{{$banda->nif}}</label><br>
                                 
                                 <label class="form-label" for="n_membres">Nº de Membres:</label>
-                                <label class="form-control" id="n_membres">@if($banda->members){{count($banda->members)}}@endif</label><br>
-
+                                <label class="form-control" id="n_membres">@if($banda->users){{count($banda->users)}}@endif</label><br>
                                 <label class="form-label" for="membres">Membres:</label>
                                 <ul class="list-group">
-                                    @foreach($banda->members as $membre)
+                                    @foreach($banda->users as $membre)
                                         <li class="list-group-item">{{$membre->name}}</li>
                                     @endforeach
                                 </ul>
@@ -94,7 +93,7 @@
                             </div>
                             <div class="col-3">
                                 <label class="form-label" for="logo">Logo Banda:</label>
-                                <img id="logo" src="{{$banda->profile_photo}}" alt="Logo {{$banda->name}}" style="max: width 300px;">
+                                <img class="rounded-lg" id="logo" src="{{$banda->profile_photo}}" alt="Logo {{$banda->name}}" style="max: width 300px;">
                             </div>
                         </div>
                         <hr>
@@ -145,12 +144,12 @@
                     </div>
                         <div class="col-3">
                             <label class="form-label" for="profile_photo">Foto de Perfil:</label>
-                            <img id="profile_photo" @if(isset($user->profile_photo)) src="{{$user->profile_photo}}" @endif alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
+                            <img class="rounded-lg" id="profile_photo" @if(isset($user->profile_photo)) src="{{$user->profile_photo}}" @endif alt="Imatge de Perfil {{$user->name}}" style="max: width 300px;">
                         </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row pb-4">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="row">
@@ -165,24 +164,24 @@
                 </div>
                 <hr>
 
-                        <div class="row">
-                                <div class="col-2">
-                                    <b>Nom</b>    
-                                </div>
-                                <div class="col">
-                                    <b>Instruments</b>
-                                </div>
+                <div class="">
+                    <div class="row">
+                        <div class="col-2">
+                            <b>Nom</b>    
+                        </div>
+                        <div class="col">
+                            <b>Instruments</b>
+                        </div>
 
-                                @if(isset($user->idband))
-                                <div class="col-2">
-                                    <b>Rol</b>
-                                </div>
-                                @endif
-                            </div>
-                    <div class="col-12">
-                        @foreach($user->members as $member)
+                        @if(isset($user->idband))
+                        <div class="col-2">
+                            <b>Rol</b>
+                        </div>
+                        @endif
+                    </div>
 
-                        
+                    <div class="col-12 py-2">
+                        @foreach($user->users    as $member)
                             <div class="row">
                                 <div class="col-2">{{$member->name}}</div>
                                 <div class="col" id="instruments_{{$member->iduser}}">

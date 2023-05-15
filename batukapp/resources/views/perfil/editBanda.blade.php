@@ -53,9 +53,9 @@
                         <!-- <input class="form-control" type="file" name="profile_photo" id="profile_photo"> -->
                     </div>
                 </div>
-            
-            @if(isset($error))
-                <span class="bg-danger bg-gradient">{{$error}}</span>
+
+            @if(isset($user->error))
+                <div class="alert alert-danger" role="alert">{{$user->error}}</div>
             @endif
 
         </div>

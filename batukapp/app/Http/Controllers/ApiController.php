@@ -11,7 +11,7 @@ class ApiController extends Controller
      */
     public static function callApi($path, $response = true, $method = "GET", $body = "")
     {
-        $url = 'http://api-batukapp.cat:4000';
+        $url = env("API_URL");
         //$url = 'http://192.168.170.229:4000';
         //$url = 'localhost:3000';
         //$url = 'http://52.47.192.142:5001';

@@ -53,10 +53,14 @@ Route::middleware('checkSession')->group(function () {
         Route::get('/home', 'home')->name('home');
 
         Route::get('/calendari', 'calendari')->name('calendari');
+        Route::post('/calendari/action', 'action')->name('calendari.action');;
+
         Route::get('/temes', 'temes')->name('temes');
+
         Route::get('/perfil', 'perfil')->name('perfil.show');
         Route::get('/perfil/edit', 'perfilEdit')->name('perfil.edit');
         Route::put('/perfil', 'perfilSave')->name('perfil.save');
+        
         Route::get('/banda/{key}', 'bandaEdit')->name('banda.edit');
         Route::put('/banda', 'bandaSave')->name('banda.save');
     });
