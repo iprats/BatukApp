@@ -152,7 +152,6 @@ class HomeController extends Controller
             {
                 $assistencia = new \stdClass();
 
-                $assistencia->idevent = $request->eventModal_id;
                 $assistencia->iduser = $id;
                 $assistencia->answer = $assis;
                 
@@ -162,9 +161,16 @@ class HomeController extends Controller
                 }
                 $assistencies[] = $assistencia;
             }
+
+            if(count($assistencies) > 0)
+            {
+                ApiController::callApi("/assistances/" . $request->eventModal_id, true, "POST", $assistencies);
+            }
+
             //dd($request, $event, $assistencies);
 
             ApiController::callApi("/events/" . $request->eventModal_id . "?utc=$utc", true, "PUT", $event);
+            
 
             //ApiController::callApi();
 
@@ -530,6 +536,7 @@ class HomeController extends Controller
 
 
         $user = session()->get('user');
+        $indexBand = null;
 
         if(isset($user->idband))
         {
@@ -537,15 +544,16 @@ class HomeController extends Controller
         }
         else
         {
-            dd($request);
+            //dd($request, $user);
             $trobat = false;
             $i = 0;
             while(!$trobat && $i < count($user->bands))
             {
                 if($request->idband == $user->bands[$i]->idband)
                 {
-                    $trobat == !$trobat;
+                    $trobat = !$trobat;
                     $band = $user->bands[$i];
+                    $indexBand = $i;
                 }
                 else
                 {
@@ -578,13 +586,64 @@ class HomeController extends Controller
         }
         
         //banda ->Info Banda //Que es el que ja esta fet aqui sobre
+        $allInstruments = ApiController::callApi("/instruments/" . $updatedBand->idband);
 
         $membres = [];
 
-        foreach($request->instruments as $id => $ins)
+        foreach($request->instruments as $iduser => $ins)
         {
-            $instruments = explode(",", $ins);            
-            $userBand = ["iduser" => $id, "role" => $request->rol[$id], "instruments" => $instruments];
+            $instruments = explode(",", $ins);//Ids dels instruments que se li assignen l'usuari
+
+            $userInstruments = [];
+
+            foreach($instruments as $idinstrument)
+            {
+                $find = false;
+                $f = 0;
+    
+                while(!$find && count($allInstruments) > $f)
+                {
+                    if($allInstruments[$f]->idinstrument == $idinstrument)
+                    {
+                        $find = !$find;
+                        $userInstruments[] = $allInstruments[$f];
+
+                    }
+                    else
+                    {
+                        $f++;
+                    }
+                }
+            }
+
+            
+            $find = false;
+            $f = 0;
+
+            while(!$find && count($updatedBand->users) > $f)
+            {
+                //dd($updatedBand->users[$f]);
+                if($updatedBand->users[$f]->iduser == $iduser)
+                {
+                    $find = !$find;
+                    $updatedBand->users[$f]->instruments = $userInstruments;
+                    //dd($updatedBand);
+                }
+                else
+                {
+                    $f++;
+                }
+            }
+
+            if(isset($request->rol))
+            {
+                $userBand = ["iduser" => $iduser, "role" => $request->rol[$iduser], "instruments" => (isset($instruments) ? $instruments : [])];
+            }
+            else
+            {
+                $userBand = ["iduser" => $iduser, "instruments" => (isset($instruments) ? $instruments : [])];
+            }
+            
             
             $membres[] = $userBand;
         }
@@ -596,24 +655,33 @@ class HomeController extends Controller
         //dd($band, $editBand, $updatedBand, $request);
 
 
-        $ok = ApiController::callApi("/bands/" . $band->idband, true, "PUT", $editBand);
+        // $ok = ApiController::callApi("/bands/" . $band->idband, true, "PUT", $editBand);
 
-        //dd($ok);
+        $ok = true;
+        // dd($ok);
 
-        if($ok)
+
+        if($ok && isset($user->iduser))
+        {
+            $user->bands[$indexBand] = $updatedBand;
+
+            session(["google_id" => $user->google_id, "user" => $user]);
+
+            return redirect(route("perfil.show"));
+        }
+        elseif($ok)
         {
             $user = $updatedBand;
     
             session(["google_id" => $user->google_id, "user" => $user]);
             
-    
-            return $this->perfil();
+            return redirect(route("perfil.show"));
         }
         else
         {
-            $user->error = "No s'ha pogut actualitzar l'usuari";
+            $user->error = "No s'ha pogut actualitzar la banda";
 
-            return view("perfil.editBanda", compact("user"));
+            return redirect(route("perfil.show"));
         }
 
     }

@@ -542,7 +542,7 @@
 
                 $('#eventShow_start_date').text(start_date);
                 $('#eventShow_start_hour').text(start_hour);
-                
+
                 if(event.end)
                 {
                     var end = new Date(event.end);
@@ -565,7 +565,7 @@
 
                 $('#eventShow_name').text(event.name);
 
-                console.log(event);
+                //console.log(event);
                 $('#eventShow_location').text(event.location);
                 $('#eventShow_description').text(event.description);
 
@@ -759,168 +759,7 @@
                 
             }
         }
-/*
-        function enviarEvent(origen, action)
-        {
-            var enviar = true;
-
-
-
-
-
-            var title = $('#'+ origen + 'name').val();
-
-            if(title != null && title != "" && enviar)
-            {
-                console.log("title", title);
-                console.log("title", enviar);
-            }
-            else
-            {
-                enviar = false;
-            }
-
-            var location = $('#'+ origen + 'location').val();
-
-            if(location != null && location != "" && enviar)
-            {
-                console.log("location", location);
-                console.log("location", enviar);
-            }
-
-            var description = $('#'+ origen + 'description').val();
-
-            if(description != null && description != "" && enviar)
-            {
-                console.log("description", description);
-                console.log("description", enviar);
-            }
-
-            var startDate = $('#'+ origen + 'start_date').val();
-
-            if(startDate != null && startDate != "" && enviar)
-            {
-                console.log("startDate", startDate);
-                console.log("startDate", enviar);
-            }
-            else
-            {
-                enviar = false;
-            }
-
-            var startHour = $('#'+ origen + 'start_hour').val();
-
-            if(startHour != null && startHour != "" && enviar)
-            {
-                console.log("startHour", startHour);
-                console.log("startHour", enviar);
-            }
-            else
-            {
-                enviar = false;
-            }
-
-            var endDate = $('#'+ origen + 'end_date').val();
-
-            if(endDate != null && endDate != "" && enviar)
-            {
-                console.log("endDate", endDate);
-                console.log("endDate", enviar);
-            }
-
-            var endHour = $('#'+ origen + 'end_hour').val();
-
-            if(endHour != null && endHour != "" && enviar)
-            {
-                console.log("endHour", endHour);
-                console.log("endHour", enviar);
-            }
-
-            var idband = $('#'+ origen + 'idband').val();
-
-            if(idband != null && idband != "" && enviar)
-            {
-                console.log("idband", idband);
-                console.log("idband", enviar);
-            }
-            else
-            {
-                enviar = false;
-            }
-
-            var status = $('#'+ origen + 'status').val();
-
-            if(status != null && status != "" && enviar)
-            {
-                console.log("status", status);
-                console.log("status", enviar);
-            }
-
-            var private = $('#'+ origen + 'private').val();
-
-            if(private != null && private != "" && enviar)
-            {
-                private = true;
-
-                console.log("private", private);
-                console.log("private", enviar);
-            }
-            else
-            {
-                enviar = false;
-            }
-
-            console.log(title, "/", location, "/", description, "/", startDate, "/", startHour, "/", endDate, "/", endHour, "/", idband, "/", status, "/", private);
-
-            //Parse dates
-            var start_date = new Date();
-            var end_date;
-
-            if(enviar)
-            {
-                data = {
-                        title: title,
-                        idband: idband,
-                        location: location,
-                        start_date: start_date,
-                        end_date: end_date,
-                        description: description,
-                        status: status,
-                        private: private,
-                        // main_photo: main_photo,
-
-                        type: action
-                    }
-                $.ajax({
-                    url:"{{route('calendari.action')}}",
-                    type:"POST",
-                    data:{
-                        title: title,
-                        idband: idband,
-                        location: location,
-                        start_date: start_date,
-                        end_date: end_date,
-                        description: description,
-                        status: status,
-                        private: private,
-                        // main_photo: main_photo,
-
-                        type: action
-                    },
-                    success:function(data)
-                    {
-                        console.log(data);
-                        calendar.fullCalendar('refetchEvents');
-                        alert("Event Created Successfully");
-                    }
-                });
-                return data;
-                console.log("ENVIAO");
-                console.log(action);
-                console.log(data);
-            }
-        }
-*/
+        
         // HELPER FUNCTIONS
 
         function buscarEvent(id)

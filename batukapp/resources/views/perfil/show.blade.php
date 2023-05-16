@@ -181,7 +181,7 @@
                     </div>
 
                     <div class="col-12 py-2">
-                        @foreach($user->users    as $member)
+                        @foreach($user->users as $member)
                             <div class="row">
                                 <div class="col-2">{{$member->name}}</div>
                                 <div class="col" id="instruments_{{$member->iduser}}">
