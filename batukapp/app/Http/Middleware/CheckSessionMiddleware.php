@@ -23,7 +23,8 @@ class CheckSessionMiddleware
             $google_id = $_COOKIE["google_id"];
         }
 
-        if($request->session()->has("google_id") && $google_id)
+        //dd($request->session()->has("google_id"), $google_id);
+        if($request->session()->has("google_id") /*&& $google_id*/)
         {
             $expires = time() + 3600 * 24 * 365;
             setcookie("google_id", $request->session()->get("google_id"), $expires);

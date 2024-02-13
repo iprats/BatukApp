@@ -19,6 +19,7 @@ class GoogleController extends Controller
 
     public static function googleCallback()
     {
+
         $user_google = Socialite::driver('google')->stateless()->user();
         $user = ApiController::callApi("/users", true, "POST", $user_google);
 
@@ -26,9 +27,14 @@ class GoogleController extends Controller
         $dateTime = new \DateTime("now", $timezone);
         $utc = $timezone->getOffset($dateTime) / 3600;
 
-        
+
         session_start();
         session(["google_id" => $user->google_id, "user" => $user, "utc" => $utc]);
+
+        $expires = time() + 3600 * 24 * 365;
+        setcookie("google_id", $user->google_id, $expires);
+
+        //dd($_COOKIE);
 
         if((isset($user->bands) && count($user->bands) > 0) || isset($user->idband))
         {
